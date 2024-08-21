@@ -30,18 +30,18 @@ jobs:
           context: "{{defaultContext}}:base"
           push: false
           tags: base-image
-          outputs: type=docker,dest=/tmp/base-image.tar
+      #     outputs: type=docker,dest=/tmp/base-image.tar
 
-      - 
-        name: check docker image 1
-        run: |
-            docker images
-            docker load --input /tmp/base-image.tar
-            docker images
-      - 
-        name: check docker image 2
-        run: |
-            docker images
+      # - 
+      #   name: check docker image 1
+      #   run: |
+      #       docker images
+      #       docker load --input /tmp/base-image.tar
+      #       docker images
+      # - 
+      #   name: check docker image 2
+      #   run: |
+      #       docker images
       -
         name: Build overlay image
         uses: docker/build-push-action@v5
