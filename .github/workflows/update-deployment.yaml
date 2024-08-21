@@ -38,10 +38,10 @@ jobs:
       #       docker images
       #       docker load --input /tmp/base-image.tar
       #       docker images
-      # - 
-      #   name: check docker image 2
-      #   run: |
-      #       docker images
+      - 
+        name: check docker image 2
+        run: |
+            docker images
       -
         name: Build overlay image
         uses: docker/build-push-action@v5
