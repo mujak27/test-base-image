@@ -1,0 +1,41 @@
+
+# REUSE GUIDE
+# to reuse this workflow file in another project
+# 1. make sure self hosted runner using the latest secrets
+#   its located in ~/actions/actions.secrets
+# 2. update these ENVs:
+#   - PROJECT_GROUP
+#   - PROJECT_NAME
+#   - BUILD_CONTEXT -> for nested directory use `{{defaultContext}}:<directory>`
+
+name: test pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - production
+      - development
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+      -
+        name: Build base image
+        uses: docker/build-push-action@v5
+        with:
+          context: "{{defaultContext}}/base"
+          push: false
+          tags: base-image:1.0
+
+      -
+        name: Build overlay image
+        uses: docker/build-push-action@v5
+        with:
+          context: "{{defaultContext}}/overlay"
+          push: false
+          tags: overlay-image:1.0
