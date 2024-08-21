@@ -14,8 +14,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - production
-      - development
+      - master
 
 jobs:
   build-and-deploy:
@@ -28,14 +27,29 @@ jobs:
         name: Build base image
         uses: docker/build-push-action@v5
         with:
-          context: "{{defaultContext}}/base"
+          context: "{{defaultContext}}:base"
           push: false
-          tags: base-image:1.0
+          tags: base-image
+          outputs: type=docker,dest=/tmp/base-image.tar
 
+      - 
+        name: check docker image 1
+        run: |
+            docker images
+            docker load --input /tmp/base-image.tar
+            docker images
+      - 
+        name: check docker image 2
+        run: |
+            docker images
       -
         name: Build overlay image
         uses: docker/build-push-action@v5
         with:
-          context: "{{defaultContext}}/overlay"
+          context: "{{defaultContext}}:overlay"
           push: false
           tags: overlay-image:1.0
+
+          # push: true
+          # tags: ${{env.REGISTRY_URL}}/${{env.PROJECT_NAME}}-base-image:${{env.IMAGE_VERSION}}
+          # # registry.sdlc.lacak.io/vo-api-base-image

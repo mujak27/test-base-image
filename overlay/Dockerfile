@@ -1,6 +1,6 @@
 
 # FROM maven:3.9.2-amazoncorretto-17 AS build
-FROM base-image:1.0 AS build
+FROM base-image AS build
 
 FROM debian:11-slim
 COPY --from=build app/text.txt $APP_HOME/
